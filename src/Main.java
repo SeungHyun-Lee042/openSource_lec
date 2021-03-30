@@ -17,12 +17,17 @@ public class Main {
     public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, SAXException {
 
         String menu = args[0];
+        String dir;
 
         if(menu.equals("-c")){
             makeCollection collection = new makeCollection(args[1]);
         }else if(menu.equals("-k")){
-            String dir = "./example/" + args[1];
+            dir = "./example/" + args[1];
             makeKeyword keyword = new makeKeyword(dir);
+        }else if(menu.equals("-i")){
+            dir = "./example/" + args[1];
+            indexer index = new indexer(dir);
+
         }
     }
 }
