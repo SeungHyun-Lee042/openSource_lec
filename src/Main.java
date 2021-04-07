@@ -14,7 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 public class Main {
-    public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, SAXException {
+    public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException, SAXException, ClassNotFoundException {
 
         String menu = args[0];
         String dir;
@@ -27,7 +27,12 @@ public class Main {
         }else if(menu.equals("-i")){
             dir = "./example/" + args[1];
             indexer index = new indexer(dir);
-
+        }else if(menu.equals("-s")){
+            dir = "./example/";
+            if(args[2].equals("-q")){
+                String query = args[3];
+                searcher searcher = new searcher(dir, query);
+            }
         }
     }
 }
