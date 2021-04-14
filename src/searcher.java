@@ -37,6 +37,7 @@ public class searcher {
             }
         }
         num = Title.size();
+        this.fileDir = this.fileDir + "index.post";
         rank();
     }
 
@@ -54,7 +55,6 @@ public class searcher {
 
     public HashMap getHashmap() throws IOException, ClassNotFoundException {
         //hashmap 선언
-        this.fileDir = this.fileDir + "index.post";
         FileInputStream fileInputStream = new FileInputStream(this.fileDir);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
@@ -64,6 +64,40 @@ public class searcher {
         HashMap map = (HashMap)object;
 
         return map;
+    }
+
+    public ArrayList<Double> CalcSim() throws IOException, ClassNotFoundException {
+        HashMap map = getHashmap();
+
+        ArrayList<Double> inner = innerProduct();
+        ArrayList<Double> weight = new ArrayList<>();
+
+        double split=0, count, last;
+        for(int i=0; i<num; i++){
+            for(int j=0; j<word.size(); j++){
+                String hash = (String) map.get(word.get(j));
+                String [] spt_1 = hash.split(", ");
+                String [] spt_2 = spt_1[2*i+1].split("]");
+                split = split + Math.pow(Double.parseDouble(spt_2[0]),2.0);
+            }
+            count = innerProduct().get(i);
+            split = Math.sqrt(split);
+
+            last = count / (Math.sqrt((double)(word.size())) * split);
+
+            if((Math.sqrt((double)(word.size())) * split) == 0){
+                weight.add(0.0);
+            }else{
+                weight.add(last);
+            }
+            split=0;
+
+        }
+        System.out.println("\n");
+        System.out.println("------가중치------");
+        System.out.println(weight);
+        System.out.println("-------상위 문서-------");
+        return weight;
     }
 
     public ArrayList<Double> innerProduct() throws IOException, ClassNotFoundException {
@@ -81,10 +115,6 @@ public class searcher {
             weight.add(split);
             split =0;
         }
-        System.out.println("\n");
-        System.out.println("------가중치------");
-        System.out.println(weight);
-        System.out.println("-------상위 문서-------");
 
         return weight;
     }
