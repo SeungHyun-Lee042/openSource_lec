@@ -12,6 +12,7 @@ import static java.lang.Double.parseDouble;
 public class searcher {
     String fileDir;
     String query;
+    int num;
 
     ArrayList<String> Title = new ArrayList<>();
     ArrayList<String> word;
@@ -22,7 +23,7 @@ public class searcher {
         this.fileDir = fileDir;
         File dir = new File(this.fileDir);
         File []fileTemp = dir.listFiles();
-        int num = fileTemp.length;
+        this.num = fileTemp.length;
         this.query = query;
         this.word = this.useKKma();
 
@@ -36,7 +37,22 @@ public class searcher {
             }
         }
         num = Title.size();
+        rank();
+    }
 
+    public ArrayList<String> useKKma(){
+        ArrayList<String> word = new ArrayList<>();
+        KeywordExtractor ke = new KeywordExtractor();
+        KeywordList kl = ke.extractKeyword(this.query, true);
+
+        for(int i=0; i<kl.size(); i++){
+            Keyword key = kl.get(i);
+            word.add(key.getString());
+        }
+        return word;
+    }
+
+    public HashMap getHashmap() throws IOException, ClassNotFoundException {
         //hashmap 선언
         this.fileDir = this.fileDir + "index.post";
         FileInputStream fileInputStream = new FileInputStream(this.fileDir);
@@ -47,6 +63,11 @@ public class searcher {
 
         HashMap map = (HashMap)object;
 
+        return map;
+    }
+
+    public ArrayList<Double> CalcSim() throws IOException, ClassNotFoundException {
+        HashMap map = getHashmap();
         //가중치 계산
         this.weight = new ArrayList<Double>();
         double split = 0;
@@ -64,6 +85,12 @@ public class searcher {
         System.out.println("------가중치------");
         System.out.println(weight);
         System.out.println("-------상위 문서-------");
+
+        return weight;
+    }
+
+    public void rank() throws IOException, ClassNotFoundException {
+        ArrayList<Double> weight = CalcSim();
 
         //순위 판단
         int rank=0,position=0;
@@ -89,24 +116,8 @@ public class searcher {
             rank++;
             score = 0;
         }
-
         for(int i=0; i<result.length; i++){
             System.out.println(i+1+ " => "+result[i]);
         }
     }
-
-    public ArrayList<String> useKKma(){
-        ArrayList<String> word = new ArrayList<>();
-        KeywordExtractor ke = new KeywordExtractor();
-        KeywordList kl = ke.extractKeyword(this.query, true);
-
-        for(int i=0; i<kl.size(); i++){
-            Keyword key = kl.get(i);
-            word.add(key.getString());
-        }
-        return word;
-    }
-
-
-
 }
