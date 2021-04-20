@@ -26,7 +26,7 @@ public class genSnippet {
                 }
                 File file = new File(dir);
                 for(int i=0; i<5; i++){
-                    try{
+                    try{ // 파일 읽기
                         FileReader reader = new FileReader(file);
                         br = new BufferedReader(reader);
                         StringBuffer sb = new StringBuffer();
@@ -47,7 +47,7 @@ public class genSnippet {
                     }
                 }
 
-                for(int i=0; i<5; i++){
+                for(int i=0; i<5; i++){ // 유사도 검사
                     for(int j=0; j<word.get(i).size(); j++){
                         for(int k=0; k<keyword.size(); k++){
                             if(word.get(i).get(j).equals(keyword.get(k))){
@@ -57,7 +57,7 @@ public class genSnippet {
                     }
                 }
 
-                int result = 0;
+                int result = 0; // 결과 출력
                 for(int i=0; i<5; i++){
                     int max = 0;
                     if(count[max] < count[i]){
@@ -68,7 +68,6 @@ public class genSnippet {
                 for(int i=0; i<result; i++){
                     System.out.print(word.get(result).get(i));
                 }
-
             }
         }
     }
