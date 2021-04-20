@@ -77,7 +77,6 @@ public class makeCollection {
             docId.appendChild(body);
         }
 
-
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");

@@ -74,6 +74,22 @@ public class searcher {
 
         double split=0, count, last;
         for(int i=0; i<num; i++){
+//            for(int i=0; i<num; i++){
+//                for(int j=0; j<word.size(); j++){
+//                    String hash = (String) map.get(word.get(j));
+//                    String [] spt_1 = hash.split(", ");
+//                    String [] spt_2 = spt_1[2*i+1].split("]");
+//                    split = split + Double.parseDouble(spt_2[0]);
+//                }
+//                weight.add(split);
+//                split =0;
+//            }
+//            System.out.println("\n");
+//            System.out.println("------가중치------");
+//            System.out.println(weight);
+//            System.out.println("-------상위 문서-------");
+//
+//            return weight;
             for(int j=0; j<word.size(); j++){
                 String hash = (String) map.get(word.get(j));
                 String [] spt_1 = hash.split(", ");
